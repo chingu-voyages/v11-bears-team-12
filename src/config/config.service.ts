@@ -22,6 +22,10 @@ export class ConfigService {
     return this.envConfig.CLIENT_SECRET;
   }
 
+  get JWTSecret(): string {
+    return this.envConfig.JWT_SECRET_KEY;
+  }
+
   /**
    * Ensures all needed variables are set, and returns the validated JavaScript object
    * including the applied default values.
@@ -34,6 +38,7 @@ export class ConfigService {
       PORT: Joi.number().default(3000),
       CLIENT_ID: Joi.string().required(),
       CLIENT_SECRET: Joi.string().required(),
+      JWT_SECRET_KEY: Joi.string().required(),
     });
 
     const { error, value: validatedEnvConfig } = envVarsSchema.validate(
