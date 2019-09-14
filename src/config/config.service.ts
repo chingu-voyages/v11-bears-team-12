@@ -10,7 +10,13 @@ export class ConfigService {
   private readonly envConfig: EnvConfig;
 
   constructor(filePath: string) {
-    const config = dotenv.parse(fs.readFileSync(filePath));
+    let config;
+    if (process.env.NODE_ENV !== 'production') {
+      config = dotenv.parse(fs.readFileSync(filePath));
+    } else {
+      config = process.env;
+    }
+
     this.envConfig = this.validateInput(config);
   }
 
