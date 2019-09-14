@@ -35,7 +35,16 @@
     "passport-jwt": "^4.0.0",
     "reflect-metadata": "^0.1.12",
     "rimraf": "^2.6.2",
-    "rxjs": "^6.3.3"
+    "rxjs": "^6.3.3",
+    "jest": "^24.8.0",
+    "prettier": "1.17.0",
+    "supertest": "4.0.2",
+    "ts-jest": "24.0.2",
+    "ts-node": "8.1.0",
+    "tsc-watch": "2.2.1",
+    "tsconfig-paths": "3.8.0",
+    "tslint": "5.16.0",
+    "typescript": "3.4.3"
   },
   "devDependencies": {
     "@nestjs/testing": "6.1.1",
@@ -48,16 +57,7 @@
     "@types/node": "11.13.4",
     "@types/passport-google-oauth20": "^2.0.2",
     "@types/passport-jwt": "^3.0.2",
-    "@types/supertest": "2.0.7",
-    "jest": "^24.8.0",
-    "prettier": "1.17.0",
-    "supertest": "4.0.2",
-    "ts-jest": "24.0.2",
-    "ts-node": "8.1.0",
-    "tsc-watch": "2.2.1",
-    "tsconfig-paths": "3.8.0",
-    "tslint": "5.16.0",
-    "typescript": "3.4.3"
+    "@types/supertest": "2.0.7"
   },
   "jest": {
     "moduleFileExtensions": [
