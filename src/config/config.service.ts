@@ -14,7 +14,21 @@ export class ConfigService {
     if (process.env.NODE_ENV !== 'production') {
       config = dotenv.parse(fs.readFileSync(filePath));
     } else {
-      config = process.env;
+      const {
+        NODE_ENV,
+        PORT,
+        CLIENT_ID,
+        CLIENT_SECRET,
+        JWT_SECRET_KEY,
+      } = process.env;
+
+      config = {
+        NODE_ENV,
+        PORT,
+        CLIENT_ID,
+        CLIENT_SECRET,
+        JWT_SECRET_KEY,
+      };
     }
 
     this.envConfig = this.validateInput(config);
