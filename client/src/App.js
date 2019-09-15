@@ -1,4 +1,9 @@
-import React from 'react';
+import React, { useContext, useState} from 'react';
+import { observer } from 'mobx-react-lite';
+import PieceStore from './PieceStore';
+import PieceList from './components/PieceList';
+
+
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -7,13 +12,12 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-
 import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import PieceList from './components/PieceList';
+
 
 function Copyright() {
   return (
@@ -60,8 +64,27 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function App() {
+const App = observer(() => {
   const classes = useStyles();
+  const pieceStore = useContext(PieceStore);
+  addPiece = evt => {
+    evt.preventDefault();
+   pieceStore.add(this.input.value);
+    this.input.value = '';
+  };
+
+
+
+  deletePiece = e => {
+  pieceStore.delete(e);
+  };
+
+
+  handlePick = c => {
+  pieceStore.select(c);
+   console.log(pieceStore.selectedPieces);
+  }
+
 
   return (
       <div>
@@ -86,8 +109,9 @@ export default function App() {
           <Typography component="h1" variant="h5">
         Piece List
           </Typography>
+
        
-          <form className={classes.form} noValidate>
+          <form onSubmit={addPiece} className={classes.form} noValidate>
             <TextField
               variant="outlined"
               margin="normal"
@@ -138,6 +162,8 @@ export default function App() {
         </Box>
       </Container>
       </div>
+      
    
   );
-}
+})
+export default App;
