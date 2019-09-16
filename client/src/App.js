@@ -7,7 +7,6 @@ export default function App() {
           <Router>
             <div>
               <Route exact path="/" component={Main} />
-              <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
             </div>
           </Router>
