@@ -1,6 +1,5 @@
-import React, { useContext, useState} from 'react';
+import React, { useRef} from 'react';
 import { observer } from 'mobx-react-lite';
-import PieceStore from './PieceStore';
 import PieceList from './components/PieceList';
 
 
@@ -18,6 +17,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+import {usePieceStore} from './usePieceStore';
 
 function Copyright() {
   return (
@@ -65,24 +65,24 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const App = observer(() => {
+const pieceStore = usePieceStore();
+
+
   const classes = useStyles();
-  const pieceStore = useContext(PieceStore);
-  addPiece = evt => {
+
+  let textInput = useRef(null);
+
+
+  const addPiece = (evt) => {
     evt.preventDefault();
-   pieceStore.add(this.input.value);
-    this.input.value = '';
+    pieceStore.add(textInput.current.value);
+    textInput.current.value = '';
   };
 
 
-
-  deletePiece = e => {
-  pieceStore.delete(e);
-  };
-
-
-  handlePick = c => {
+ const handlePick = c => {
   pieceStore.select(c);
-   console.log(pieceStore.selectedPieces);
+  console.log(pieceStore.selectedPieces);
   }
 
 
@@ -109,6 +109,7 @@ const App = observer(() => {
           <Typography component="h1" variant="h5">
         Piece List
           </Typography>
+  
 
        
           <form onSubmit={addPiece} className={classes.form} noValidate>
@@ -120,8 +121,10 @@ const App = observer(() => {
               label="Piece Name"
               name="pieceName"
               autoFocus
+              inputRef={textInput}
             />
             <Button
+             type="submit"
              variant="outlined"
              fullWidth
              color="primary"
@@ -129,12 +132,13 @@ const App = observer(() => {
             ADD
             </Button>
            <PieceList />
+          
             <FormControlLabel
               control={<Checkbox value="autoStop" color="primary" />}
               label="Let me know when I should move on to the next piece"
             />
             <Button
-              type="submit"
+              onClick = {handlePick}
               fullWidth
               variant="contained"
               color="primary"
