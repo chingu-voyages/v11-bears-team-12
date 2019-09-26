@@ -1,4 +1,8 @@
-import React from 'react';
+import React, { useRef} from 'react';
+import { observer } from 'mobx-react-lite';
+import PieceList from './PieceList';
+
+
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -7,13 +11,13 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-
 import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import PieceList from './components/PieceList';
+
+import {usePieceStore} from '../usePieceStore';
 
 function Copyright() {
   return (
@@ -60,8 +64,27 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Main() {
+const Main = observer(() => {
+const pieceStore = usePieceStore();
+
+
   const classes = useStyles();
+
+  let textInput = useRef(null);
+
+
+  const addPiece = (evt) => {
+    evt.preventDefault();
+    pieceStore.add(textInput.current.value);
+    textInput.current.value = '';
+  };
+
+
+ const handlePick = c => {
+  pieceStore.select(c);
+  console.log(pieceStore.selectedPieces);
+  }
+
 
   return (
       <div>
@@ -86,8 +109,10 @@ export default function Main() {
           <Typography component="h1" variant="h5">
         Piece List
           </Typography>
+  
+
        
-          <form className={classes.form} noValidate>
+          <form onSubmit={addPiece} className={classes.form} noValidate>
             <TextField
               variant="outlined"
               margin="normal"
@@ -96,8 +121,10 @@ export default function Main() {
               label="Piece Name"
               name="pieceName"
               autoFocus
+              inputRef={textInput}
             />
             <Button
+             type="submit"
              variant="outlined"
              fullWidth
              color="primary"
@@ -105,12 +132,13 @@ export default function Main() {
             ADD
             </Button>
            <PieceList />
+          
             <FormControlLabel
               control={<Checkbox value="autoStop" color="primary" />}
               label="Let me know when I should move on to the next piece"
             />
             <Button
-              type="submit"
+              onClick = {handlePick}
               fullWidth
               variant="contained"
               color="primary"
@@ -138,6 +166,8 @@ export default function Main() {
         </Box>
       </Container>
       </div>
+      
    
   );
-}
+})
+export default Main;
