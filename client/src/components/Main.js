@@ -94,7 +94,7 @@ const pieceStore = usePieceStore();
         AUDITIONIZER
         </Typography>
     
-        <Button href="#" color="primary" variant="outlined" className={classes.login}>
+        <Button href="/connect" color="primary" variant="outlined" className={classes.login}>
           Login
         </Button>
       </Toolbar>
