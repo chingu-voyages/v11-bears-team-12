@@ -66,12 +66,10 @@ const PieceList = observer(() => {
                 >
                   <ListItemText>{piece.text}</ListItemText>
                   <ListItemIcon>
-                    <IconButton edge="end" aria-label="delete">
+                    <IconButton edge="end" aria-label="delete"  onClick={e => {
+                      deletePiece(piece, e);
+                    }}>
                       <DeleteIcon
-                        button
-                        onClick={e => {
-                          deletePiece(piece, e);
-                        }}
                       />
                     </IconButton>
                   </ListItemIcon>

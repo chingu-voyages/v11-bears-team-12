@@ -1,6 +1,7 @@
 import React, { useRef} from 'react';
 import { observer } from 'mobx-react-lite';
 import PieceList from './PieceList';
+import SelectDialog from './SelectDialog';
 
 
 import Button from '@material-ui/core/Button';
@@ -24,7 +25,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-       Bears Team 12 - Chingu Voyage 11 -
+       Yael Luria
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -137,16 +138,8 @@ const pieceStore = usePieceStore();
               control={<Checkbox value="autoStop" color="primary" />}
               label="Let me know when I should move on to the next piece"
             />
-            <Button
-              onClick = {handlePick}
-              fullWidth
-              variant="contained"
-              color="primary"
-              size="large"
-              className={classes.submit}
-            >
-              What should I play?
-            </Button>
+       
+            <SelectDialog />
             <Grid container>
               <Grid item xs>
                 <Button href="#" >

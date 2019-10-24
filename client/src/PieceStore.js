@@ -1,62 +1,76 @@
-import { observable, action, decorate, computed } from "mobx";
+import { observable, action, decorate, computed } from 'mobx';
 
 export class Piece {
-  text = "";
+  text = '';
   constructor(text) {
     this.id = Date.now();
     this.text = text;
- 
   }
 }
 
 class PieceStore {
   pieces = [];
   selectedPieces = [];
-  emptyPieceFieldError = "";
+  emptyPieceFieldError = '';
+  piecesToSelectFrom = [];
+  selectedOption;
+  selectionDone;
 
   add = piece => {
-    if (!piece){
-       console.log(this.emptyPieceFieldError);
-       this.emptyPieceFieldError = "Please enter a piece name";
-    } else{
-        this.pieces.push(new Piece(piece));
-        this.emptyPieceFieldError = undefined;
+    console.log(this.pieces);
+    console.log(piece);
+    const isSame = this.pieces.some(pieceOnList => pieceOnList.text === piece);
+
+    if (!piece) {
+      this.emptyPieceFieldError = 'Please enter a piece name';
+      console.log(this.emptyPieceFieldError);
+
+    } else if (isSame){
+      this.emptyPieceFieldError = 'You already have this piece in your piece list';
+      console.log(this.emptyPieceFieldError);
+    }
+    else {
+      this.pieces.push(new Piece(piece));
+      this.emptyPieceFieldError = undefined;
     }
   };
- 
 
-
-delete = p => {
-    const itemToRemove = this.pieces.find(item => item.id === p.id)
+  delete = p => {
+    const itemToRemove = this.pieces.find(item => item.id === p.id);
     this.pieces.remove(itemToRemove);
- 
-  
-}
+  };
 
   
+
   select = () => {
-    this.selectedPieces.push(this.selectedOption);
+    if(this.piecesToSelectFrom.length === 0 && this.selectionDone !== true){
+      this.piecesToSelectFrom = [...this.pieces]
+    } 
+    
+    const randomNum = Math.floor(Math.random() * this.piecesToSelectFrom.length);
+    this.selectedOption = this.piecesToSelectFrom[randomNum];
+    console.log(this.piecesToSelectFrom);
+    console.log(this.selectedOption);
+    this.piecesToSelectFrom = this.piecesToSelectFrom.filter(p => p !== this.selectedOption);
+    if(this.piecesToSelectFrom.length === 0){
+      this.selectionDone = true;
+    }
   }
- 
-  get selectedOption(){
-    const randomNum = Math.floor(Math.random() * this.pieces.length);
-    return this.pieces[randomNum];
-  }
- 
+
 }
 decorate(PieceStore, {
   pieces: observable,
-  selectedPieces:observable,
+  // selectedPieces: observable,
   add: action,
-  selectedOption: computed,
+  selectedOption: observable,
   delete: action,
   select: action,
-  emptyPieceFieldError: observable
+  emptyPieceFieldError: observable,
+  piecesToSelectFrom: observable,
+  selectionDone:observable
 });
 decorate(Piece, {
   text: observable,
-
 });
 
 export default new PieceStore();
-
